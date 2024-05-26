@@ -264,41 +264,8 @@ require('lazy').setup({
           mappings = {
             i = { ['<c-enter>'] = 'to_fuzzy_refine' },
           },
-          vimgrep_arguments = {
-            'rg',
-            '--color=never',
-            '--no-heading',
-            '--with-filename',
-            '--line-number',
-            '--column',
-            '--smart-case',
-          },
-          prompt_prefix = ' ',
-          selection_caret = ' ',
-          path_display = { 'smart' },
-          dynamic_preview_title = true,
-          winblend = 10,
-          sorting_strategy = 'ascending',
-          layout_strategy = 'vertical',
-          layout_config = {
-            prompt_position = 'bottom',
-            height = 0.95,
-          },
         },
-        pickers = {
-          live_grep = {
-            vimgrep_arguments = {
-              'rg',
-              '--color=never',
-              '--no-heading',
-              '--with-filename',
-              '--line-number',
-              '--column',
-              '--smart-case',
-              '-l',
-            },
-          },
-        },
+        -- pickers = {},
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
@@ -412,7 +379,10 @@ require('lazy').setup({
           map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
           -- Find references for the word under your cursor.
-          map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+          -- show_line = false hides the annoying preview that obscures the file path
+          map('gr', function()
+            require('telescope.builtin').lsp_references { show_line = false }
+          end, '[G]oto [R]eferences')
 
           -- Jump to the implementation of the word under your cursor.
           --  Useful when your language has ways of declaring types without an actual implementation.
